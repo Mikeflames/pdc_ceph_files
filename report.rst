@@ -72,7 +72,7 @@ Functions Used for Storing the PDC Server data and metadata :
 PDC_Server_rados_write() :
 ------------------
 
-This function writes the data in 'buf' to rados objects whose names are created as "obj_id_reg_id_batch."Depending on the offset and size values of the global region of PDC, it stores the data in Rados objects inside the pool.
+This function reads the data from 'buf' and writes to rados objects whose names are created as "obj_id_reg_id_batch."Depending on the offset and size values of the global region of PDC, it stores the data in Rados objects inside the pool.
 * PDC_Server_rados_write(uint64_t obj_id, void *buf, uint64_t write_size, int ndim, uint64_t *offset,uint64_t *size, int o) :
 
 * PDC_Server_rados_write(uint64_t obj_id, void *buf, uint64_t write_size, int ndim, uint64_t *offset,uint64_t *size, int o) :
