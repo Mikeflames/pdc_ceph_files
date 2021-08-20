@@ -122,24 +122,28 @@ The io context determines the snapshot to read from if any was set by rados_ioct
               * off – the offset to start reading from in the object
 
        * Returns :
-            the number of bytes read on success, negative error code on failure.
+            the number of bytes read on success, negative error code on failure 
+	    
 * int rados_setxattr(rados_ioctx_tio, constchar*o, constchar*name, constchar*buf, size_tlen)
 Set an extended attribute on an object.
+
          * Parameters 
                  * io – the context in which xattr is set
                  * o – name of the object
                  * name – which extended attribute to set
                  * buf – what to store in the xattr
                  * len – the number of bytes in buf
-        * Returns
-                    0 on success, negative error code on failure
+         * Returns
+                 * 0 on success, negative error code on failure
+		 
 * intrados_getxattr(rados_ioctx_tio, constchar*o, constchar*name, char*buf, size_tlen)
 Get the value of an extended attribute on an object.
-              * Parameters
-                       * io – the context in which the attribute is read
-                       * o – name of the object
-                       * name – which extended attribute to read
-                       * buf – where to store the result
-                       * len – the size of buf in bytes
-              * Returns
-                       length of xattr value on success, negative error code on failure.
+           
+	   * Parameters
+                  * io – the context in which the attribute is read
+                  * o – name of the object
+                  * name – which extended attribute to read
+                  * buf – where to store the result
+                  * len – the size of buf in bytes
+           * Returns
+                  * length of xattr value on success, negative error code on failure.
