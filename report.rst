@@ -7,6 +7,12 @@ Connection to PDC_Codebase:
 ---------------------------
 We have Used the Librados Library of Ceph to connect with the PDC server in C language.
 
+* To install librados development support files for C/C++ on Debian/Ubuntu distributions, execute the following:
+
+.. code-block:: Bash
+
+	sudo apt-get install librados-dev
+
 * To use Librados, you instantiate a rados_t variable (a cluster handle) and call rados_create() with a pointer to it:
 
 .. code-block:: Bash	
@@ -61,7 +67,7 @@ We have Used the Librados Library of Ceph to connect with the PDC server in C la
 
 * Finally, you have a connection to the cluster through PDC.
 ------------------------------------------------
-Functions Used for Storing the PDC Server data : 
+Functions Used for Storing the PDC Server data and metadata : 
 ------------------------------------------------
 PDC_Server_rados_write() :
 ------------------
@@ -94,6 +100,11 @@ This Function reads back the data from the rados objects for the desired call de
                 * size is in bytes.
        * Output:
 		* '0' on Success else negative value on failure.
+
+Metadata:
+--------
+* Extended these  Attributes of ndim , size and offset to rados objects using setxattr() Function of librados. For Key - Value Pairs of pdc metadata, used rados_write_op_omap_set2() function to write these key - value pairs to rados objects and to read them used rados_read_op_omap_get_vals2() function of librados. 
+
 --------------------------------
 Sub Functions of Librados Used :
 --------------------------------
@@ -136,7 +147,7 @@ Set an extended attribute on an object.
          * Returns
                  * 0 on success, negative error code on failure
 		 
-* intrados_getxattr(rados_ioctx_tio, constchar*o, constchar*name, char*buf, size_tlen)
+* int rados_getxattr(rados_ioctx_tio, constchar*o, constchar*name, char*buf, size_tlen)
 Get the value of an extended attribute on an object.
            
 	   * Parameters
@@ -175,7 +186,7 @@ Set key/value pairs on an object
 		* key_lens – array of lengths corresponding to each key
 		* val_lens – array of lengths corresponding to each value
 		* num – number of key/value pairs to set
-* intrados_write_op_operate(rados_write_op_twrite_op, rados_ioctx_tio, constchar*oid, time_t*mtime, intflags)
+* int rados_write_op_operate(rados_write_op_twrite_op, rados_ioctx_tio, constchar*oid, time_t*mtime, intflags)
 Perform a write operation synchronously
 
 	 * Parameters 
@@ -185,7 +196,7 @@ Perform a write operation synchronously
 		* mtime – the time to set the mtime to, NULL for the current time
 		* flags – flags to apply to the entire operation (LIBRADOS_OPERATION_*)
 		
-* voidrados_read_op_omap_get_vals2(rados_read_op_tread_op, constchar*start_after, constchar*filter_prefix, uint64_tmax_return, rados_omap_iter_t*iter, unsignedchar*pmore, int*prval)
+* void rados_read_op_omap_get_vals2(rados_read_op_tread_op, constchar*start_after, constchar*filter_prefix, uint64_tmax_return, rados_omap_iter_t*iter, unsignedchar*pmore, int*prval)
 Start iterating over key/value pairs on an object.
 They will be returned sorted by key.
 	
@@ -198,7 +209,7 @@ They will be returned sorted by key.
 		* pmore – flag indicating whether there are more keys to fetch
 		* prval – where to store the return value from this action
 		
-* intrados_read_op_operate(rados_read_op_tread_op, rados_ioctx_tio, constchar*oid, intflags)
+* int rados_read_op_operate(rados_read_op_tread_op, rados_ioctx_tio, constchar*oid, intflags)
 Perform a read operation synchronously
 	 
 	 * Parameters
@@ -207,7 +218,7 @@ Perform a read operation synchronously
 		* oid – the object id
 		* flags – flags to apply to the entire operation (LIBRADOS_OPERATION_*)
 
-* intrados_omap_get_next2(rados_omap_iter_titer, char**key, char**val, size_t*key_len, size_t*val_len)
+* int rados_omap_get_next2(rados_omap_iter_titer, char**key, char**val, size_t*key_len, size_t*val_len)
 Get the next omap key/value pair on the object. Note that it’s perfectly safe to mix calls to rados_omap_get_next and rados_omap_get_next2.
 
 	 * Parameters
@@ -217,7 +228,7 @@ Get the next omap key/value pair on the object. Note that it’s perfectly safe 
 		* key_len – where to store the number of bytes in key
 		* val_len – where to store the number of bytes in val
 
-* voidrados_omap_get_end(rados_omap_iter_titer)
+* void rados_omap_get_end(rados_omap_iter_titer)
 Close the omap iterator.
 
 	 * Parameters
@@ -225,4 +236,7 @@ Close the omap iterator.
 
 * typedef void *rados_omap_iter_t
 
-An iterator for listing omap key/value pairs on an object. Used with rados_read_op_omap_get_keys(), rados_read_op_omap_get_vals(), rados_read_op_omap_get_vals_by_keys(), rados_omap_get_next(), and rados_omap_get_end().
+		* An iterator for listing omap key/value pairs on an object. Used with rados_read_op_omap_get_keys(), rados_read_op_omap_get_vals(), rados_read_op_omap_get_vals_by_keys(), rados_omap_get_next(), and rados_omap_get_end().
+
+
+	
