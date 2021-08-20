@@ -147,3 +147,82 @@ Get the value of an extended attribute on an object.
                   * len – the size of buf in bytes
            * Returns
                   * length of xattr value on success, negative error code on failure.
+
+* int rados_stat(rados_ioctx_tio, constchar*o, uint64_t*psize, time_t*pmtime)
+Get object stats (size/mtime)
+	 
+	 * Parameters
+                  * io – ioctx
+                  * o – object name
+                  * psize – where to store object size
+                  * pmtime – where to store modification time
+	   * Returns
+                  * 0 on success, negative error code on failure
+* void rados_write_op_create(rados_write_op_twrite_op, intexclusive, constchar*category)
+Create the object
+
+	 * Parameters
+		* write_op – operation to add this action to
+		* exclusive – set to either LIBRADOS_CREATE_EXCLUSIVE or LIBRADOS_CREATE_IDEMPOTENT will error if the object already exists.
+		* category – category string (DEPRECATED, HAS NO EFFECT)
+* void rados_write_op_omap_set2(rados_write_op_twrite_op, charconst*const*keys, charconst*const*vals, constsize_t*key_lens, constsize_t*val_lens, size_tnum)
+Set key/value pairs on an object
+	 
+	 * Parameters
+		* write_op – operation to add this action to
+		* keys – array of null-terminated char arrays representing keys to set
+		* vals – array of pointers to values to set
+		* key_lens – array of lengths corresponding to each key
+		* val_lens – array of lengths corresponding to each value
+		* num – number of key/value pairs to set
+* intrados_write_op_operate(rados_write_op_twrite_op, rados_ioctx_tio, constchar*oid, time_t*mtime, intflags)
+Perform a write operation synchronously
+
+	 * Parameters 
+		write_op – operation to perform
+		* io – the ioctx that the object is in
+		* oid – the object id
+		* mtime – the time to set the mtime to, NULL for the current time
+		* flags – flags to apply to the entire operation (LIBRADOS_OPERATION_*)
+		
+* voidrados_read_op_omap_get_vals2(rados_read_op_tread_op, constchar*start_after, constchar*filter_prefix, uint64_tmax_return, rados_omap_iter_t*iter, unsignedchar*pmore, int*prval)
+Start iterating over key/value pairs on an object.
+They will be returned sorted by key.
+	
+	* Parameters
+		* read_op – operation to add this action to
+		* start_after – list keys starting after start_after
+		* filter_prefix – list only keys beginning with filter_prefix
+		* max_return – list no more than max_return key/value pairs
+		* iter – where to store the iterator
+		* pmore – flag indicating whether there are more keys to fetch
+		* prval – where to store the return value from this action
+		
+* intrados_read_op_operate(rados_read_op_tread_op, rados_ioctx_tio, constchar*oid, intflags)
+Perform a read operation synchronously
+	 
+	 * Parameters
+		* read_op – operation to perform
+		* io – the ioctx that the object is in
+		* oid – the object id
+		* flags – flags to apply to the entire operation (LIBRADOS_OPERATION_*)
+
+* intrados_omap_get_next2(rados_omap_iter_titer, char**key, char**val, size_t*key_len, size_t*val_len)
+Get the next omap key/value pair on the object. Note that it’s perfectly safe to mix calls to rados_omap_get_next and rados_omap_get_next2.
+
+	 * Parameters
+		* iter – iterator to advance
+		* key – where to store the key of the next omap entry
+		* val – where to store the value of the next omap entry
+		* key_len – where to store the number of bytes in key
+		* val_len – where to store the number of bytes in val
+
+* voidrados_omap_get_end(rados_omap_iter_titer)
+Close the omap iterator.
+
+	 * Parameters
+		* iter – the iterator to close
+
+* typedef void *rados_omap_iter_t
+
+An iterator for listing omap key/value pairs on an object. Used with rados_read_op_omap_get_keys(), rados_read_op_omap_get_vals(), rados_read_op_omap_get_vals_by_keys(), rados_omap_get_next(), and rados_omap_get_end().
