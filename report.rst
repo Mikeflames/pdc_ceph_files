@@ -90,7 +90,7 @@ This Function reads back the data from the rados objects for the desired call de
        * Input:
 		* obj_id is the id coming from PDC objects.
                 * buf is the array buffer where data read from rados object to be written.
-                *offset is the value in bytes from where it should start reading in buf.
+                * offset is the value in bytes from where it should start reading in buf.
                 * size is in bytes.
        * Output:
 		* '0' on Success else negative value on failure.
@@ -102,14 +102,11 @@ Write len bytes from buf into the oid object. The value of len must be <= UINT_M
 The object is filled with the provided data. If the object exists, it is atomically truncated and then written.
 
          * Parameters
-               io – the io context in which the write will occur 
-
-               oid – the name of the object
-
-               buf – data to write
-
-               len – length of the data, in bytes
-
+               * io – the io context in which the write will occur 
+	       * oid – the name of the object
+               * buf – data to write
+               * len – length of the data, in bytes
+              
          * Returns : 
                0 on success, negative error code on failure
 
@@ -118,43 +115,31 @@ Read data from an object.
 The io context determines the snapshot to read from if any was set by rados_ioctx_snap_set_read().
 
        * Parameters
-              io – the context in which to perform the read
-
-              oid – the name of the object to read from
-
-              buf – where to store the results
-
-              len – the number of bytes to read
-
-              off – the offset to start reading from in the object
+              * io – the context in which to perform the read
+              * oid – the name of the object to read from
+              * buf – where to store the results
+              * len – the number of bytes to read
+              * off – the offset to start reading from in the object
 
        * Returns :
             the number of bytes read on success, negative error code on failure.
 * int rados_setxattr(rados_ioctx_tio, constchar*o, constchar*name, constchar*buf, size_tlen)
 Set an extended attribute on an object.
          * Parameters 
-                 io – the context in which xattr is set
-
-                 o – name of the object
-
-                 name – which extended attribute to set
-
-                 buf – what to store in the xattr
-
-                 len – the number of bytes in buf
+                 * io – the context in which xattr is set
+                 * o – name of the object
+                 * name – which extended attribute to set
+                 * buf – what to store in the xattr
+                 * len – the number of bytes in buf
         * Returns
                     0 on success, negative error code on failure
 * intrados_getxattr(rados_ioctx_tio, constchar*o, constchar*name, char*buf, size_tlen)
 Get the value of an extended attribute on an object.
               * Parameters
-                       io – the context in which the attribute is read
-
-                       o – name of the object
-
-                       name – which extended attribute to read
-
-                       buf – where to store the result
-
-                       len – the size of buf in bytes
+                       * io – the context in which the attribute is read
+                       * o – name of the object
+                       * name – which extended attribute to read
+                       * buf – where to store the result
+                       * len – the size of buf in bytes
               * Returns
                        length of xattr value on success, negative error code on failure.
